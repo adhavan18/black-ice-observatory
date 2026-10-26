@@ -1,0 +1,15 @@
+{
+  "dataset": "uci phishing websites",
+  "samples": 2456,
+  "features": 30,
+  "random_state": 42,
+  "test_size": 0.25,
+  "roc_auc": 0.9826,
+  "accuracy": 0.9251,
+  "class_0_precision": 0.9300,
+  "class_0_recall": 0.9355,
+  "class_1_precision": 0.9188,
+  "class_1_recall": 0.9121,
+  "confusion_matrix": [[319, 22], [24, 249]],
+  "note": "reproduced locally on 2026-10-26 with ml/phishing_detector.py"
+}

@@ -4,6 +4,7 @@ __pycache__/
 *.pyc
 *.bin
 reports/
+ml/data/
 *.egg-info/
 .env
 .env.*

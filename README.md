@@ -111,3 +111,11 @@ tests/              unit tests for every core capability
 
 the repository includes a tiny localhost-only target in `labs/authorized_target.py` and a test that starts it, checks its health contract, and terminates it. this is a local security-test harness, not a penetration test. any real penetration test needs written authorization and a separate scope.
 
+## three deeper experiments
+
+`ml/phishing_detector.py` trains a logistic-regression model on the public uci phishing websites dataset and reports held-out precision, recall, f1, confusion matrix, and roc-auc. the recorded baseline is in `ml/results/uci-baseline.json`.
+
+`distributed/docker-compose.kafka.yml` and `distributed/load_producer.py` provide a real kafka producer/consumer setup for a million synthetic reports. docker was unavailable when this repository was last validated, so no distributed throughput number is claimed yet.
+
+`pentest/docker-compose.yml` runs the intentionally vulnerable owasp juice shop locally. its writeups are templates marked planned until the container is actually run and each finding is reproduced and documented.
+
