@@ -30,6 +30,7 @@ internal report + external report + endpoint telemetry
 - pe and elf magic/header inspection plus entropy analysis without execution
 - vulnerability prioritization using cvss, internet exposure, and known-exploitation signals
 - signature detection using a small transparent rule engine
+- scored detection rules using regular expressions plus required behavioral features
 - behavioral profiling as a named ml technique using explainable feature weights
 - adversary tracking with aliases, campaigns, techniques, and confidence levels
 - threat intelligence processing for internal and external reports
@@ -42,6 +43,7 @@ internal report + external report + endpoint telemetry
 - security review reports that identify gaps in security guidance
 - hyper-scale service design notes for queueing, partitioning, backpressure, and idempotency
 - a real bounded worker queue for batch report ingestion
+- partitioned load testing with throughput metrics and bounded backpressure
 - an opsec scanner for fake secrets and unsafe logging patterns
 
 ## important safety boundary
@@ -59,6 +61,8 @@ python -m black_ice.cli landscape examples/landscape.json
 python -m black_ice.cli vulnerabilities examples/vulnerabilities.json
 python -m black_ice.cli opsec .
 python -m black_ice.cli ingest examples/landscape.json
+python -m black_ice.cli load-test examples/landscape.json
+python -m black_ice.cli disassemble examples/benign_x86.bin
 pytest
 ```
 
@@ -104,4 +108,6 @@ tests/              unit tests for every core capability
 ## safe reversing and authorized testing
 
 `docs/reverse-engineering.md` explains the non-executing pe/elf fixture workflow. `docs/authorized-testing.md` defines the local-only security test boundary. no external target is attacked by this repository.
+
+the repository now includes a tiny localhost-only target in `labs/authorized_target.py` and a test that starts it, checks its health contract, and terminates it. this is the maximum safe testing target in the public project; any real penetration test needs written authorization and a separate scope.
 
