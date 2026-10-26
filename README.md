@@ -105,6 +105,3 @@ tests/              unit tests for every core capability
 
 `docs/reverse-engineering.md` explains the non-executing pe/elf fixture workflow. `docs/authorized-testing.md` defines the local-only security test boundary. no external target is attacked by this repository.
 
-## portfolio keywords
-
-malware analysis, adversary tracking, threat intelligence, threat landscape, defensive products, first-party mitigation, operational security, incident response, security reviews, advanced threat detection, behavioral profiling, hyper-scale service engineering, intelligence requirements, vulnerability identification, security guidance, signature detection, reverse engineering, penetration testing.
