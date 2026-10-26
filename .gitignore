@@ -3,6 +3,7 @@ __pycache__/
 .venv/
 *.pyc
 reports/
+*.egg-info/
 .env
 .env.*
 !.env.example

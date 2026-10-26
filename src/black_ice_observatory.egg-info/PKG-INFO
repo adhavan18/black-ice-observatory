@@ -1,5 +1,0 @@
-Metadata-Version: 2.4
-Name: black-ice-observatory
-Version: 0.1.0
-Summary: safe defensive malware analysis and threat intelligence workbench
-Requires-Python: >=3.11
