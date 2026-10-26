@@ -63,6 +63,7 @@ python -m black_ice.cli opsec .
 python -m black_ice.cli ingest examples/landscape.json
 python -m black_ice.cli load-test examples/landscape.json
 python -m black_ice.cli disassemble examples/benign_x86.bin
+python -m black_ice.cli case examples/report.json
 pytest
 ```
 
@@ -118,4 +119,6 @@ the repository includes a tiny localhost-only target in `labs/authorized_target.
 `distributed/docker-compose.kafka.yml` and `distributed/load_producer.py` provide a real kafka producer/consumer setup for a million synthetic reports. docker was unavailable when this repository was last validated, so no distributed throughput number is claimed yet.
 
 `pentest/docker-compose.yml` runs the intentionally vulnerable owasp juice shop locally. its writeups are templates marked planned until the container is actually run and each finding is reproduced and documented.
+
+the `case` command joins indicators, signatures, scored detection, behavior, intelligence requirements, response actions, and first-party mitigations into one reviewable artifact. disruptive actions remain approval-gated.
 
