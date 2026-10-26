@@ -41,7 +41,7 @@ internal report + external report + endpoint telemetry
 - operational security checks for secrets, unsafe logging, and over-broad access
 - security defect and vulnerability identification with severity and ownership
 - security review reports that identify gaps in security guidance
-- hyper-scale service design notes for queueing, partitioning, backpressure, and idempotency
+- partitioned ingestion benchmark with queueing, backpressure, and throughput metrics
 - a real bounded worker queue for batch report ingestion
 - partitioned load testing with throughput metrics and bounded backpressure
 - an opsec scanner for fake secrets and unsafe logging patterns
@@ -86,7 +86,7 @@ src/black_ice/
   intelligence.py   report normalization and adversary tracking
   response.py       incident response and mitigation plans
   review.py         security defects and guidance gaps
-  scale.py          hyper-scale ingestion design checks
+  scale.py          ingestion scaling design checks
   pipeline.py       bounded worker queue for report ingestion
   vulnerability.py  cvss and exposure prioritization
   opsec.py          secret and unsafe logging checks
@@ -105,9 +105,9 @@ tests/              unit tests for every core capability
 - add signed analyst approvals before blocking a domain or isolating a host
 - send detections to a siem, edr, ticketing system, and case-management api
 
-## safe reversing and authorized testing
+## safe reversing and local security testing
 
 `docs/reverse-engineering.md` explains the non-executing pe/elf fixture workflow. `docs/authorized-testing.md` defines the local-only security test boundary. no external target is attacked by this repository.
 
-the repository now includes a tiny localhost-only target in `labs/authorized_target.py` and a test that starts it, checks its health contract, and terminates it. this is the maximum safe testing target in the public project; any real penetration test needs written authorization and a separate scope.
+the repository includes a tiny localhost-only target in `labs/authorized_target.py` and a test that starts it, checks its health contract, and terminates it. this is a local security-test harness, not a penetration test. any real penetration test needs written authorization and a separate scope.
 

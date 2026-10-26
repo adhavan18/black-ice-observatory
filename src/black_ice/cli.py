@@ -35,5 +35,5 @@ def main() -> None:
         print(json.dumps(disassemble_x86(bytes.fromhex(raw)), indent=2)); return
     text = json.dumps(data)
     intel = report(data.get("case_id", "unknown"), data.get("source", "unknown"), data.get("actor", "unknown"), data.get("title", ""), [], data.get("techniques", []), data.get("confidence", 0.5), data.get("requirements", []))
-    result = {"case": data.get("case_id"), "indicators": [item.json() for item in extract_indicators(text)], "signature_hits": detect_signatures(text), "advanced_detection": detect(text, {"script": "script" in data.get("events", []), "document": data.get("file_type") == "document"}), "behavior": profile(data.get("events", [])).as_dict(), "intelligence_requirements": intelligence_requirements([intel])}
+    result = {"case": data.get("case_id"), "indicators": [item.json() for item in extract_indicators(text)], "signature_hits": detect_signatures(text), "scored_detection": detect(text, {"script": "script" in data.get("events", []), "document": data.get("file_type") == "document"}), "behavior": profile(data.get("events", [])).as_dict(), "intelligence_requirements": intelligence_requirements([intel])}
     print(json.dumps(result, indent=2))
