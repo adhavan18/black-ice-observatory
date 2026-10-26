@@ -1,0 +1,9 @@
+{
+  "case_id": "case-2026-001",
+  "source": "internal soc report",
+  "actor": "aurora-lynx",
+  "title": "suspicious document and rare outbound destination",
+  "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "events": ["script", "encoded_command", "file_discovery", "rare_destination", "large_upload"],
+  "notes": "the report mentions powershell -enc and an upload to https://telemetry.invalid.example.net/collect"
+}

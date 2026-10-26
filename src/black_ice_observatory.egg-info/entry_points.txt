@@ -1,0 +1,2 @@
+[console_scripts]
+black-ice = black_ice.cli:main

@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "black-ice-observatory"
+version = "0.1.0"
+description = "safe defensive malware analysis and threat intelligence workbench"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+black-ice = "black_ice.cli:main"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
