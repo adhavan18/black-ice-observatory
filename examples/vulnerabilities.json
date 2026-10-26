@@ -1,0 +1,4 @@
+[
+  {"cve": "CVE-2025-0001", "asset": "internet-api", "cvss": 8.1, "known_exploitation": true},
+  {"cve": "CVE-2025-0002", "asset": "internal-worker", "cvss": 6.5, "known_exploitation": false}
+]

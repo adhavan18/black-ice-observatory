@@ -27,6 +27,8 @@ internal report + external report + endpoint telemetry
 ## capabilities
 
 - static malware analysis with sha256, file metadata, strings, and safe feature extraction
+- pe and elf magic/header inspection plus entropy analysis without execution
+- vulnerability prioritization using cvss, internet exposure, and known-exploitation signals
 - signature detection using a small transparent rule engine
 - behavioral profiling as a named ml technique using explainable feature weights
 - adversary tracking with aliases, campaigns, techniques, and confidence levels
@@ -39,6 +41,8 @@ internal report + external report + endpoint telemetry
 - security defect and vulnerability identification with severity and ownership
 - security review reports that identify gaps in security guidance
 - hyper-scale service design notes for queueing, partitioning, backpressure, and idempotency
+- a real bounded worker queue for batch report ingestion
+- an opsec scanner for fake secrets and unsafe logging patterns
 
 ## important safety boundary
 
@@ -51,7 +55,10 @@ python -m venv .venv
 .venv\Scripts\activate
 pip install -e .
 python -m black_ice.cli analyze examples/report.json
-python -m black_ice.cli landscape examples/report.json
+python -m black_ice.cli landscape examples/landscape.json
+python -m black_ice.cli vulnerabilities examples/vulnerabilities.json
+python -m black_ice.cli opsec .
+python -m black_ice.cli ingest examples/landscape.json
 pytest
 ```
 
@@ -70,12 +77,15 @@ priority actions: isolate host, preserve evidence, rotate exposed tokens
 
 ```text
 src/black_ice/
-  analysis.py       safe static analysis and indicators
+  analysis.py       safe static analysis, pe/elf headers, entropy, indicators
   behavior.py       explainable behavioral profiling
   intelligence.py   report normalization and adversary tracking
   response.py       incident response and mitigation plans
   review.py         security defects and guidance gaps
   scale.py          hyper-scale ingestion design checks
+  pipeline.py       bounded worker queue for report ingestion
+  vulnerability.py  cvss and exposure prioritization
+  opsec.py          secret and unsafe logging checks
   cli.py            command line interface
 examples/           safe synthetic reports
 tests/              unit tests for every core capability
@@ -90,6 +100,10 @@ tests/              unit tests for every core capability
 - add an approved sandbox connector behind a separate service boundary
 - add signed analyst approvals before blocking a domain or isolating a host
 - send detections to a siem, edr, ticketing system, and case-management api
+
+## safe reversing and authorized testing
+
+`docs/reverse-engineering.md` explains the non-executing pe/elf fixture workflow. `docs/authorized-testing.md` defines the local-only security test boundary. no external target is attacked by this repository.
 
 ## portfolio keywords
 

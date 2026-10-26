@@ -1,0 +1,5 @@
+[
+  {"report_id": "r1", "source": "internal soc", "actor": "aurora-lynx", "sector": "healthcare", "techniques": ["execution", "collection"]},
+  {"report_id": "r2", "source": "vendor report", "actor": "aurora-lynx", "sector": "healthcare", "techniques": ["execution", "exfiltration"]},
+  {"report_id": "r3", "source": "public advisory", "actor": "night-heron", "sector": "finance", "techniques": ["initial-access"]}
+]
