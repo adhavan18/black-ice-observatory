@@ -4,14 +4,36 @@ from pathlib import Path
 
 from .analysis import detect_signatures, extract_indicators
 from .behavior import profile
+from .landscape import summarize
+from .opsec import scan_path
+from .vulnerability import prioritize
+from .pipeline import process_reports
+from .pipeline import partitioned_load
+from .detector import detect
+from .disasm import disassemble_x86
+from .intelligence import report, intelligence_requirements
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(prog="black-ice")
-    parser.add_argument("command", choices=["analyze", "landscape"])
+    parser.add_argument("command", choices=["analyze", "landscape", "vulnerabilities", "opsec", "ingest", "load-test", "disassemble"])
     parser.add_argument("report")
     args = parser.parse_args()
+    if args.command == "opsec":
+        print(json.dumps(scan_path(args.report), indent=2)); return
     data = json.loads(Path(args.report).read_text(encoding="utf-8"))
+    if args.command == "landscape":
+        print(json.dumps(summarize(data), indent=2, default=dict)); return
+    if args.command == "vulnerabilities":
+        print(json.dumps(prioritize(data, {"internet-api"}), indent=2)); return
+    if args.command == "ingest":
+        print(json.dumps(process_reports(data), indent=2)); return
+    if args.command == "load-test":
+        print(json.dumps(partitioned_load(data), indent=2)); return
+    if args.command == "disassemble":
+        raw = Path(args.report).read_text().strip() if Path(args.report).suffix == ".hex" else Path(args.report).read_bytes().hex()
+        print(json.dumps(disassemble_x86(bytes.fromhex(raw)), indent=2)); return
     text = json.dumps(data)
-    result = {"case": data.get("case_id"), "indicators": [item.json() for item in extract_indicators(text)], "signature_hits": detect_signatures(text), "behavior": profile(data.get("events", [])).as_dict()}
+    intel = report(data.get("case_id", "unknown"), data.get("source", "unknown"), data.get("actor", "unknown"), data.get("title", ""), [], data.get("techniques", []), data.get("confidence", 0.5), data.get("requirements", []))
+    result = {"case": data.get("case_id"), "indicators": [item.json() for item in extract_indicators(text)], "signature_hits": detect_signatures(text), "scored_detection": detect(text, {"script": "script" in data.get("events", []), "document": data.get("file_type") == "document"}), "behavior": profile(data.get("events", [])).as_dict(), "intelligence_requirements": intelligence_requirements([intel])}
     print(json.dumps(result, indent=2))

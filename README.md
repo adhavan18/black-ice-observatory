@@ -27,7 +27,10 @@ internal report + external report + endpoint telemetry
 ## capabilities
 
 - static malware analysis with sha256, file metadata, strings, and safe feature extraction
+- pe and elf magic/header inspection plus entropy analysis without execution
+- vulnerability prioritization using cvss, internet exposure, and known-exploitation signals
 - signature detection using a small transparent rule engine
+- scored detection rules using regular expressions plus required behavioral features
 - behavioral profiling as a named ml technique using explainable feature weights
 - adversary tracking with aliases, campaigns, techniques, and confidence levels
 - threat intelligence processing for internal and external reports
@@ -38,7 +41,10 @@ internal report + external report + endpoint telemetry
 - operational security checks for secrets, unsafe logging, and over-broad access
 - security defect and vulnerability identification with severity and ownership
 - security review reports that identify gaps in security guidance
-- hyper-scale service design notes for queueing, partitioning, backpressure, and idempotency
+- partitioned ingestion benchmark with queueing, backpressure, and throughput metrics
+- a real bounded worker queue for batch report ingestion
+- partitioned load testing with throughput metrics and bounded backpressure
+- an opsec scanner for fake secrets and unsafe logging patterns
 
 ## important safety boundary
 
@@ -51,7 +57,12 @@ python -m venv .venv
 .venv\Scripts\activate
 pip install -e .
 python -m black_ice.cli analyze examples/report.json
-python -m black_ice.cli landscape examples/report.json
+python -m black_ice.cli landscape examples/landscape.json
+python -m black_ice.cli vulnerabilities examples/vulnerabilities.json
+python -m black_ice.cli opsec .
+python -m black_ice.cli ingest examples/landscape.json
+python -m black_ice.cli load-test examples/landscape.json
+python -m black_ice.cli disassemble examples/benign_x86.bin
 pytest
 ```
 
@@ -70,12 +81,15 @@ priority actions: isolate host, preserve evidence, rotate exposed tokens
 
 ```text
 src/black_ice/
-  analysis.py       safe static analysis and indicators
+  analysis.py       safe static analysis, pe/elf headers, entropy, indicators
   behavior.py       explainable behavioral profiling
   intelligence.py   report normalization and adversary tracking
   response.py       incident response and mitigation plans
   review.py         security defects and guidance gaps
-  scale.py          hyper-scale ingestion design checks
+  scale.py          ingestion scaling design checks
+  pipeline.py       bounded worker queue for report ingestion
+  vulnerability.py  cvss and exposure prioritization
+  opsec.py          secret and unsafe logging checks
   cli.py            command line interface
 examples/           safe synthetic reports
 tests/              unit tests for every core capability
@@ -91,6 +105,9 @@ tests/              unit tests for every core capability
 - add signed analyst approvals before blocking a domain or isolating a host
 - send detections to a siem, edr, ticketing system, and case-management api
 
-## portfolio keywords
+## safe reversing and local security testing
 
-malware analysis, adversary tracking, threat intelligence, threat landscape, defensive products, first-party mitigation, operational security, incident response, security reviews, advanced threat detection, behavioral profiling, hyper-scale service engineering, intelligence requirements, vulnerability identification, security guidance, signature detection, reverse engineering, penetration testing.
+`docs/reverse-engineering.md` explains the non-executing pe/elf fixture workflow. `docs/authorized-testing.md` defines the local-only security test boundary. no external target is attacked by this repository.
+
+the repository includes a tiny localhost-only target in `labs/authorized_target.py` and a test that starts it, checks its health contract, and terminates it. this is a local security-test harness, not a penetration test. any real penetration test needs written authorization and a separate scope.
+
